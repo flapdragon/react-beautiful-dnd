@@ -6,13 +6,19 @@ const initialData = {
     'task-4': { id: 'task-4', content: 'Buy hay'}
   },
   columns: {
-    'column-1': {
-      id: 'column-1',
-      title: 'To do',
-      taskIds: [ 'task-1', 'task-2', 'task-3', 'task-4' ]
-    }
-  },
-  columnOrder: [ 'column-1' ]
-}
+      'column-1': {
+        id: 'column-1',
+        title: 'To do',
+        taskIds: ['task-1', 'task-2', 'task-3', 'task-4'],
+      },
+      'column-2': {
+        id: 'column-2',
+        title: 'In progress',
+        taskIds: [],
+      },
+    },
+    // Facilitate reordering of the columns
+    columnOrder: ['column-1', 'column-2'],
+  };
 
-export default initialData
+  export default initialData;
