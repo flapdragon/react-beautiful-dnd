@@ -13,7 +13,19 @@ const Container = styled.div`
 class App extends React.Component {
   state = initialData
 
+  onDragStart = start => {
+    const homeIndex = this.state.columnOrder.indexOf(start.source.droppableId)
+
+    this.setState({
+      homeIndex
+    })
+  }
+
   onDragEnd = result => {
+    this.setState({
+      homeIndex: null
+    })
+
     const { destination, source, draggableId } = result
     // If item is not dropped in a droppable zone
     if (!destination) {
@@ -47,6 +59,7 @@ class App extends React.Component {
       }
 
       this.setState(newState)
+      return
     }
 
     // Moving from one column to another
@@ -81,15 +94,23 @@ class App extends React.Component {
     return (
       <DragDropContext
         onDragStart={this.onDragStart}
-        onDragUpdate={this.onDragUpdate}
         onDragEnd={this.onDragEnd}
       >
         <Container>
-          {this.state.columnOrder.map(columnId => {
+          {this.state.columnOrder.map((columnId, index) => {
             const column = this.state.columns[columnId]
             const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
 
-            return <Column key={column.id} column={column} tasks={tasks} />
+            const isDropDisabled = index < this.state.homeIndex
+
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                tasks={tasks}
+                isDropDisabled={isDropDisabled}
+              />
+            )
           })}
         </Container>
       </DragDropContext>
